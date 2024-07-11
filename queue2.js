@@ -81,6 +81,11 @@ queue.push(4);
 queue.push(5);
 queue.push(6);
 
-queue.waitForAll().then(() => {
-  console.log("All done");
-});
+queue
+  .waitForAll()
+  .then(() => {
+    console.log("All done");
+  })
+  .catch((error) => {
+    console.error(error.message);
+  });
