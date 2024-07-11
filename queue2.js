@@ -38,16 +38,15 @@ class Queue {
     }
     const task = this.taskQueue.shift();
     this.runningTasks += 1;
-    this.workerFunction(task)
-      .then(() => {
-        this.runningTasks -= 1;
-        this.processTasks();
-      })
-      .catch((error) => {
-        console.error(`Error in processing task: ${error.message}`);
-        this.runningTasks -= 1;
-        this.processTasks();
-      });
+
+    try {
+      await this.workerFunction(task);
+    } catch (error) {
+      console.error(`Error in processing task: ${error.message}`);
+    } finally {
+      this.runningTasks -= 1;
+      this.processTasks();
+    }
   }
 
   pause() {
