@@ -1,5 +1,6 @@
 class Queue {
   constructor(workerFunction, maxConcurrentTasks) {
+    this.workerFunction = workerFunction;
     this.maxConcurrentTasks = maxConcurrentTasks;
     this.taskQueue = [];
     this.runningTasks = 0;
@@ -62,15 +63,19 @@ async function main() {
     await new Promise((resolve) => setTimeout(resolve, duration));
     console.log(`${x} waited for ${duration}ms`);
   }, 3);
+
+  queue.push(10);
+  queue.push(9);
+  queue.push(8);
+  queue.push(7);
+  queue.push(6);
+  queue.push(5);
+  queue.push(4);
+  queue.push(3);
+  queue.push(2);
+  queue.push(1);
+
+  await queue.waitForAll();
+  console.log("All done");
 }
-
-queue.push(2);
-queue.push(3);
-queue.push(4);
-queue.push(5);
-queue.push(6);
-
-await queue.waitForAll();
-console.log("All done");
-
 main();
