@@ -4,6 +4,7 @@ class Queue {
     this.taskQueue = [];
     this.runningTasks = 0;
     this.isPaused = false;
+    this.hasError = false;
   }
 
   limitConcurrentTasks() {
@@ -12,7 +13,13 @@ class Queue {
 
   async workerFunction(task) {
     const randomTime = Math.random() * 1000;
-    await new Promise((resolve) => setTimeout(resolve, randomTime));
+    await new Promise((resolve, reject) => {
+      if (!this.hasError) {
+        setTimeout(resolve, randomTime);
+      } else {
+        reject(new Error("task encountered an error"));
+      }
+    });
     console.log(`${task} waited for ${randomTime}`);
   }
 
