@@ -12,7 +12,7 @@ class Queue {
 
   async workerFunction(task) {
     const randomTime = Math.random() * 1000;
-    await new Promise((resolve) => setTimeout(resolve, randomTime)); // setTimeout is asynchronous. doesnt block the rest of the code
+    await new Promise((resolve) => setTimeout(resolve, randomTime));
     console.log(`${task} waited for ${randomTime}`);
   }
 
@@ -30,11 +30,10 @@ class Queue {
       return;
     }
     const task = this.taskQueue.shift();
-    this.runningTasks += 1; // shorthand way of writing this.runningTasks = this.runningTasks + 1
+    this.runningTasks += 1;
     this.workerFunction(task).then(() => {
-      // processing the task
       this.runningTasks -= 1;
-      this.processTasks(); //  ensures that as soon as one task finishes, the next task can start, maintaining a continuous flow of task processing within the constraints.
+      this.processTasks();
     });
   }
 
@@ -53,7 +52,7 @@ class Queue {
         if (this.taskQueue.length === 0 && this.runningTasks === 0) {
           resolve();
         } else {
-          setTimeout(checkIfDone, 100); // creating a polling mechanism
+          setTimeout(checkIfDone, 100);
         }
       };
       checkIfDone();
