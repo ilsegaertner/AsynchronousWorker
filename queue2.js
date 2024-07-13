@@ -11,8 +11,8 @@ class Queue {
     return this.runningTasks < this.maxConcurrentTasks;
   }
 
-  push(task, callback) {
-    this.taskQueue.push({ task, callback });
+  push(task, callback, priority = 1) {
+    this.taskQueue.push({ task, callback, priority });
     this.processTasks();
   }
 
@@ -24,15 +24,16 @@ class Queue {
     ) {
       return;
     }
-    const { task, callback } = this.taskQueue.shift();
+    const { task, callback, priority } = this.taskQueue.shift();
     try {
       this.runningTasks += 1;
       await this.workerFunction(task);
-      if (callback) callback();
+      if (callback) callback(task);
     } catch (error) {
       console.error(error.message);
     } finally {
       this.runningTasks -= 1;
+      this.taskQueue.sort((a, b) => b.priority - a.priority);
       this.processTasks();
     }
   }
@@ -73,9 +74,9 @@ async function main() {
   queue.push(7, () => {
     console.log("this was task 7");
   });
-  queue.push(6);
-  queue.push(5);
-  queue.push(4);
+  queue.push(6, null, 4);
+  queue.push(5, null, 2);
+  queue.push(4, null, 8);
   queue.push(3);
   queue.push(2);
   queue.push(1);
