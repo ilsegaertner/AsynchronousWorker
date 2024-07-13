@@ -1,6 +1,6 @@
 class Queue {
-  constructor(workerFunction, maxConcurrentTasks) {
-    this.workerFunction = workerFunction;
+  constructor(workerFn, maxConcurrentTasks) {
+    this.workerFn = workerFn;
     this.maxConcurrentTasks = maxConcurrentTasks;
     this.taskQueue = [];
     this.runningTasks = 0;
@@ -28,7 +28,7 @@ class Queue {
     const { task, callback, priority } = this.taskQueue.shift();
     try {
       this.runningTasks += 1;
-      await this.workerFunction(task);
+      await this.workerFn(task);
       if (callback) callback(task);
     } catch (error) {
       console.error(error.message);
@@ -65,8 +65,8 @@ class Queue {
 async function main() {
   const queue = new Queue(async (x) => {
     const duration = Math.random() * 1000 * x;
-    await new Promise((resolve) => setTimeout(resolve, duration));
-    console.log(`${x} waited for ${duration}ms`);
+    await new Promise((r) => setTimeout(r, duration));
+    console.log(`${x} waited for ${duration} ms`);
   }, 3);
 
   queue.push(10);
@@ -75,15 +75,27 @@ async function main() {
   queue.push(7, () => {
     console.log("this was task 7");
   });
-  queue.push(6, null, 4);
-  queue.push(5, null, 2);
-  queue.push(4, null, 8);
+  queue.push(6);
+  queue.push(
+    5,
+    () => {
+      console.log("This is task 5");
+    },
+    9
+  );
+  queue.push(
+    4,
+    () => {
+      console.log("This is task 4");
+    },
+    3
+  );
   queue.push(3);
   queue.push(2);
   queue.push(1);
 
   await queue.waitForAll();
-  console.log("All done");
+  console.log("All done!");
 }
 
 main();
