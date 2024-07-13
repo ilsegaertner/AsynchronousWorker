@@ -39,19 +39,27 @@ class Queue {
       return;
     }
     const task = this.taskQueue.shift();
+    if (task.isCancelled) {
+      this.processTasks();
+      return;
+    }
+
     try {
       this.runningTasks += 1;
-      await this.workerFunction(task);
-      if (task.callback) callback();
+      await this.workerFunction(task.taskData);
+      if (task.callback) task.callback();
     } catch (error) {
-      console.error(`Error processing task ${task}: ${error.message}`);
-      if (retries < this.retryLimit) {
+      console.error(`Error processing task ${task.id}: ${error.message}`);
+      if (task.retries < this.retryLimit) {
         console.log(
-          `retrying task ${task} (${retries + 1}/${this.retryLimit})`
+          `retrying task ${task.id} (${task.retries + 1}/${this.retryLimit})`
         );
-        this.push(task, callback, retries + 1);
+        task.retries += 1;
+        this.push(task);
       } else {
-        console.error(`Task ${task} failed after ${this.retryLimit} retries.`);
+        console.error(
+          `Task ${task.id} failed after ${this.retryLimit} retries.`
+        );
       }
     } finally {
       this.runningTasks -= 1;
@@ -68,8 +76,14 @@ class Queue {
     this.processTasks();
   }
 
-  cancelQueuedTask() {
-    if (this.taskQueue) this.cancelQueuedTask = true;
+  cancelQueuedTask(taskId) {
+    if (this.taskQueue.length > 0) {
+      this.taskQueue.forEach((task) => {
+        if (task.id === taskId) {
+          task.isCancelled = true;
+        }
+      });
+    }
   }
 
   waitForAll() {
@@ -97,18 +111,22 @@ async function main() {
     4
   );
 
-  queue.push(10);
-  queue.push(9);
-  queue.push(8);
-  queue.push(7, () => {
-    console.log("this was task 7");
-  });
-  queue.push(6);
-  queue.push(5);
-  queue.push(4);
-  queue.push(3);
-  queue.push(2);
-  queue.push(1);
+  queue.push(
+    new Task(1, 10, () => {
+      console.log("this was task 1");
+    }),
+    7
+  );
+
+  queue.push(new Task(2, 2));
+  queue.push(new Task(3, 5, null, 5));
+  queue.push(
+    new Task(4, 9, () => {
+      console.log("task 4");
+    }),
+    9
+  );
+  queue.push(new Task(5, 4));
 
   await queue.waitForAll();
   console.log("All done");
