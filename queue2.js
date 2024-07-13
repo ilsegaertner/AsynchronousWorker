@@ -29,10 +29,8 @@ class Queue {
       this.runningTasks += 1;
       await this.workerFunction(task);
       if (callback) callback();
-    } catch {
-      (error) => {
-        console.error(error.message);
-      };
+    } catch (error) {
+      console.error(error.message);
     } finally {
       this.runningTasks -= 1;
       this.processTasks();
@@ -49,7 +47,7 @@ class Queue {
   }
 
   waitForAll() {
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve) => {
       const checkIfDone = () => {
         if (this.taskQueue.length === 0 && this.runningTasks === 0) {
           resolve();
@@ -73,7 +71,7 @@ async function main() {
   queue.push(9);
   queue.push(8);
   queue.push(7, () => {
-    console.log("this was the beautiful task 7");
+    console.log("this was task 7");
   });
   queue.push(6);
   queue.push(5);
@@ -85,4 +83,5 @@ async function main() {
   await queue.waitForAll();
   console.log("All done");
 }
+
 main();
