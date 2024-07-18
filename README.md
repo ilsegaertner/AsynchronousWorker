@@ -119,7 +119,7 @@ waitForAll() {
 
 Completing the backend task was a fun and rich experience, in which I strengthened my skills of how to think asynchronous problems in code.
 
-- **Additional Goals:**
+**Additional Goals:**
 
 1. **Pause and Resume:** Implemented by setting a flag.
 2. **Optional Callback:** Added to the `push` method and processed in `processTasks()`:
@@ -136,7 +136,7 @@ Completing the backend task was a fun and rich experience, in which I strengthen
      ```
 3. **Additional functionality**
 
-   - **Task Priority** Managed by including a `priority` parameter in the `push` method and sorting the queue:
+   - **Task Priority:** Managed by including a `priority` parameter in the `push` method and sorting the queue:
 
    - In `push(task, callback, priority = 1)`:
      ```javascript
@@ -146,7 +146,6 @@ Completing the backend task was a fun and rich experience, in which I strengthen
        this.processTasks();
      }
      ```
-     ...and, destructuring it in `processTasks()`:
    - In `processTasks()`:
      ```javascript
      const { task, callback, priority } = this.taskQueue.shift();
