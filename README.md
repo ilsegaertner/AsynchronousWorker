@@ -182,4 +182,6 @@ Completing the backend task was a fun and rich experience, in which I strengthen
   }
   ```
 
+- **Cancellation method:** Another useful functionality would be a cancellation method to stop tasks, e.g. after taking a specific amount of time.
+
 Completing this backend task was a valuable learning experience, enhancing my skills in handling asynchronous programming challenges.
