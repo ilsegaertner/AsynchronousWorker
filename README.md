@@ -35,7 +35,7 @@ In the next step the methods were written from simple to more advanced
 - Implemented `limitConcurrentTasks` to check if the number of running tasks is within the limit:
 - Created `push()` to add tasks to the queue (`taskQueue`) and initiate task processing `processTasks()`:
 
-- **Pause and Resume**: Implemented methods to control the queue's ability to start new tasks with `is.Paused` flag:
+- **Pause and Resume**: Implemented methods to control the queue's ability to start new tasks with `isPaused` flag:
 
   ```javascript
   pause() {
@@ -119,22 +119,17 @@ waitForAll() {
 - **Additional Goals:**
 
   1. Implementing the pause() and resume() methods was straightforward and achieved with setting a flag.
-  2. The optional callback was achieved through adding it to the push method:
+  2. The optional callback was achieved through adding it to the push method: `push(task, callback) { this.taskQueue.push({ task, callback, priority });`
 
-  ```
-  push(task, callback) {
-  this.taskQueue.push({ task, callback, priority });
-  ```
-
-  and 
+  and
 
   processTasks():
-  ```
-  const { task, callback } = this.taskQueue.shift();
-  ```
-
+  `const { task, callback } = this.taskQueue.shift();`
 
 - **Challenges**: Managing concurrency limits and implementing robust error handling.
 - **Improvements**: Refined task sorting for priority handling and adjusted error-handling strategies.
 - **Learnings**: Enhanced understanding of asynchronous programming and concurrency control, improved skills in designing robust, maintainable code.
+
+```
+
 ```
