@@ -133,17 +133,36 @@ Completing the backend task was a fun and rich experience, in which I strengthen
      ```javascript
      const { task, callback, priority } = this.taskQueue.shift();
      ```
-3. Additional functionality, such as adding task priority, was managed by including a `priority` parameter in the `push` method and destructuring it in `processTasks()`:
+3. Additional functionality, such as adding task priority, was managed similarly by including a `priority` parameter in the `push` method and sorting it:
    - In `push(task, callback, priority = 1)`:
      ```javascript
      push(task, callback, priority = 1) {
        this.taskQueue.push({ task, callback, priority });
+       this.taskQueue.sort((a, b) => b.priority - a.priority);
        this.processTasks();
      }
      ```
+     ...and, destructuring it in `processTasks()`:
    - In `processTasks()`:
      ```javascript
      const { task, callback, priority } = this.taskQueue.shift();
      ```
+     ...and sorting it again after the priority after calling the worker function:
+     In `processTasks()`:
+     ´´´javascript
+      try {
+      this.runningTasks += 1;
+      await this.workerFn(task);
+      if (callback) callback(task);
+    } catch (error) {
+      console.error(error.message);
+    } finally {
+      this.runningTasks -= 1;
+      this.taskQueue.sort((a, b) => b.priority - a.priority);
+      this.processTasks();
+    }
+    ```
+
+    
 
 - **Learnings**: Enhanced understanding of asynchronous programming, improving my skills in designing robust, maintainable backend code.
