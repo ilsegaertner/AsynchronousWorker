@@ -121,8 +121,8 @@ Completing the backend task was a fun and rich experience, in which I strengthen
 
 - **Additional Goals:**
 
-1. Implementing the `pause()` and `resume()` methods was straightforward and achieved by setting a flag.
-2. The optional callback was handled by adding it to the `push` method and processing it in `processTasks()`:
+1. **Pause and Resume:** Implemented by setting a flag.
+2. **Optional Callback:** Added to the `push` method and processed in `processTasks()`:
    - In `push(task, callback)`:
      ```javascript
      push(task, callback, priority = 1) {
@@ -134,7 +134,9 @@ Completing the backend task was a fun and rich experience, in which I strengthen
      ```javascript
      const { task, callback, priority } = this.taskQueue.shift();
      ```
-3. Additional functionality, such as adding task priority, was managed similarly by including a `priority` parameter in the `push` method and sorting it:
+3. **Additional functionality**
+
+   - **Task Priority** Managed by including a `priority` parameter in the `push` method and sorting the queue:
 
    - In `push(task, callback, priority = 1)`:
      ```javascript
@@ -149,7 +151,7 @@ Completing the backend task was a fun and rich experience, in which I strengthen
      ```javascript
      const { task, callback, priority } = this.taskQueue.shift();
      ```
-     ...and sorting it again after the priority after calling the worker function:
+     Sorting again after processing:
      In `processTasks()`:
      ```javascript
      try {
@@ -164,3 +166,5 @@ Completing the backend task was a fun and rich experience, in which I strengthen
        this.processTasks();
      }
      ```
+
+Completing this backend task was a valuable learning experience, enhancing my skills in handling asynchronous programming challenges.
