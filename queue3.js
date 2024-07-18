@@ -1,6 +1,5 @@
 class Queue {
-  constructor(workerFunction, maxConcurrentTasks) {
-    this.workerFunction = workerFunction;
+  constructor(maxConcurrentTasks) {
     this.maxConcurrentTasks = maxConcurrentTasks;
     this.taskQueue = [];
     this.runningTasks = 0;
@@ -11,8 +10,14 @@ class Queue {
     return this.runningTasks < this.maxConcurrentTasks;
   }
 
-  push(task, callback) {
-    this.taskQueue.push({ task, callback });
+  async workerFunction(task) {
+    const randomTime = Math.random() * 1000;
+    await new Promise((resolve) => setTimeout(resolve, randomTime));
+    console.log(`${task} waited for ${randomTime}`);
+  }
+
+  push(task) {
+    this.taskQueue.push(task);
     this.processTasks();
   }
 
@@ -24,17 +29,12 @@ class Queue {
     ) {
       return;
     }
-    const { task, callback } = this.taskQueue.shift();
-    try {
-      this.runningTasks += 1;
-      await this.workerFunction(task);
-      if (callback) callback(task);
-    } catch (error) {
-      console.error(error.message);
-    } finally {
+    const task = this.taskQueue.shift();
+    this.runningTasks += 1;
+    this.workerFunction(task).then(() => {
       this.runningTasks -= 1;
       this.processTasks();
-    }
+    });
   }
 
   pause() {
@@ -47,7 +47,7 @@ class Queue {
   }
 
   waitForAll() {
-    return new Promise((resolve) => {
+    return new Promise((resolve, reject) => {
       const checkIfDone = () => {
         if (this.taskQueue.length === 0 && this.runningTasks === 0) {
           resolve();
@@ -60,28 +60,14 @@ class Queue {
   }
 }
 
-async function main() {
-  const queue = new Queue(async (x) => {
-    const duration = Math.random() * 1000 * x;
-    await new Promise((resolve) => setTimeout(resolve, duration));
-    console.log(`${x} waited for ${duration}ms`);
-  }, 3);
+const queue = new Queue(3);
 
-  queue.push(10);
-  queue.push(9);
-  queue.push(8);
-  queue.push(7, () => {
-    console.log("this was task 7");
-  });
-  queue.push(6, null);
-  queue.push(5, null);
-  queue.push(4, null);
-  queue.push(3);
-  queue.push(2);
-  queue.push(1);
+queue.push(2);
+queue.push(3);
+queue.push(4);
+queue.push(5);
+queue.push(6);
 
-  await queue.waitForAll();
+queue.waitForAll().then(() => {
   console.log("All done");
-}
-
-main();
+});
