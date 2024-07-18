@@ -10,10 +10,11 @@ This small challenge involved the creation of an in-memory queue for managing as
 - **Concurrency Control**: Set a maximum number of concurrent tasks.
 - **Wait for Completion**: An async function to wait until all tasks are processed.
 
-## Additional Requirements
+## Additional Goals
 
 - **Pause/Resume Functionality**: Ability to pause and resume the queue from starting new tasks.
 - **Task Completion Callbacks**: Optional callback function to the `push()` method which will be called after the task finished successfully.
+- **Other functionalities**: Which other functionalities could be useful?
 
 ### Recollections, Challenges and Solutions
 
@@ -150,19 +151,20 @@ Completing the backend task was a fun and rich experience, in which I strengthen
      ...and sorting it again after the priority after calling the worker function:
      In `processTasks()`:
      ´´´javascript
-      try {
-      this.runningTasks += 1;
-      await this.workerFn(task);
-      if (callback) callback(task);
-    } catch (error) {
-      console.error(error.message);
-    } finally {
-      this.runningTasks -= 1;
-      this.taskQueue.sort((a, b) => b.priority - a.priority);
-      this.processTasks();
-    }
-    ```
+     try {
+     this.runningTasks += 1;
+     await this.workerFn(task);
+     if (callback) callback(task);
+     } catch (error) {
+     console.error(error.message);
+     } finally {
+     this.runningTasks -= 1;
+     this.taskQueue.sort((a, b) => b.priority - a.priority);
+     this.processTasks();
+     }
+   ```
 
-    
+
+   ```
 
 - **Learnings**: Enhanced understanding of asynchronous programming, improving my skills in designing robust, maintainable backend code.
