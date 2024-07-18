@@ -141,11 +141,11 @@ Completing the backend task was a fun and rich experience, in which I strengthen
   - In `push(task, callback, priority = 1)`:
 
   ```javascript
-  push(task, callback, priority = 1) {
-  this.taskQueue.push({ task, callback, priority });
-  this.taskQueue.sort((a, b) => b.priority - a.priority);
-  this.processTasks();
-  }
+    push(task, callback, priority = 1) {
+    this.taskQueue.push({ task, callback, priority });
+    this.taskQueue.sort((a, b) => b.priority - a.priority);
+    this.processTasks();
+    }
   ```
 
   - In `processTasks()`:
