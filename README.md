@@ -2,14 +2,14 @@
 
 ## Overview
 
-This project provides an in-memory queue for managing asynchronous tasks with a specified maximum number of concurrent workers. The queue ensures that the maximum number of concurrent tasks is respected and provides additional functionalities such as pausing, resuming, and handling task completion callbacks.
+This small challenge involved the creationg of an in-memory queue for managing asynchronous tasks with a specified maximum number of concurrent workers. The queue ensures that the maximum number of concurrent tasks is respected and provides additional functionalities such as pausing, resuming, and handling task completion callbacks.
 
 ## Main Features
 
-- **Asynchronous Worker Function**: The queue processes tasks using an async worker function.
+- **Asynchronous Worker Function**: The queue processes tasks using an async worker function. The `push()` method adds tasks to the queue and calls the worker function at some point in the future.
 - **Concurrency Control**: Set a maximum number of concurrent tasks.
-- **Pause/Resume Functionality**: Ability to pause and resume the processing of tasks.
-- **Task Completion Callbacks**: Optional callback functions can be specified for task completion.
+- **Pause/Resume Functionality**: Ability to pause and resume the queue from starting new tasks.
+- **Task Completion Callbacks**: Optional callback function to the `push()` method which will be called after the task finished successfully.
 - **Wait for Completion**: An async function to wait until all tasks are processed.
 
 ## Installation
