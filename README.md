@@ -16,7 +16,7 @@ This small challenge involved the creation of an in-memory queue for managing as
 - **Task Completion Callbacks**: Optional callback function to the `push()` method which will be called after the task finished successfully.
 - **Other functionalities**: Which other functionalities could be useful?
 
-### Recollections, Challenges and Solutions
+## Recollections, Challenges and Solutions
 
 #### Understanding the Problem
 
@@ -135,6 +135,7 @@ Completing the backend task was a fun and rich experience, in which I strengthen
      const { task, callback, priority } = this.taskQueue.shift();
      ```
 3. Additional functionality, such as adding task priority, was managed similarly by including a `priority` parameter in the `push` method and sorting it:
+
    - In `push(task, callback, priority = 1)`:
      ```javascript
      push(task, callback, priority = 1) {
@@ -162,6 +163,7 @@ Completing the backend task was a fun and rich experience, in which I strengthen
      this.taskQueue.sort((a, b) => b.priority - a.priority);
      this.processTasks();
      }
+
    ```
 
 
