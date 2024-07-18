@@ -157,18 +157,18 @@ Completing the backend task was a fun and rich experience, in which I strengthen
   Sorting again after processing:
   In `processTasks()`:
 
-```javascript
-try {
-  this.runningTasks += 1;
-  await this.workerFn(task);
-  if (callback) callback(task);
-} catch (error) {
-  console.error(error.message);
-} finally {
-  this.runningTasks -= 1;
-  this.taskQueue.sort((a, b) => b.priority - a.priority);
-  this.processTasks();
-}
-```
+  ```javascript
+  try {
+    this.runningTasks += 1;
+    await this.workerFn(task);
+    if (callback) callback(task);
+  } catch (error) {
+    console.error(error.message);
+  } finally {
+    this.runningTasks -= 1;
+    this.taskQueue.sort((a, b) => b.priority - a.priority);
+    this.processTasks();
+  }
+  ```
 
 Completing this backend task was a valuable learning experience, enhancing my skills in handling asynchronous programming challenges.
