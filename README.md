@@ -136,7 +136,7 @@ Completing the backend task was a fun and rich experience, in which I strengthen
      ```
 3. **Additional functionality**
 
-   - **Task Priority:** Add a task priority to allow certain tasks to be processed before others. Managed by including a `priority` parameter in the `push` method and sorting the queue:
+- **Task Priority:** Add a task priority to allow certain tasks to be processed before others. Managed by including a `priority` parameter in the `push` method and sorting the queue:
 
 - In `push(task, callback, priority = 1)`:
   ```javascript
