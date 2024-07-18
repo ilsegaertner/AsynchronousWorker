@@ -153,20 +153,14 @@ Completing the backend task was a fun and rich experience, in which I strengthen
      In `processTasks()`:
      ```javascript
      try {
-     this.runningTasks += 1;
-     await this.workerFn(task);
-     if (callback) callback(task);
+       this.runningTasks += 1;
+       await this.workerFn(task);
+       if (callback) callback(task);
      } catch (error) {
-     console.error(error.message);
+       console.error(error.message);
      } finally {
-     this.runningTasks -= 1;
-     this.taskQueue.sort((a, b) => b.priority - a.priority);
-     this.processTasks();
+       this.runningTasks -= 1;
+       this.taskQueue.sort((a, b) => b.priority - a.priority);
+       this.processTasks();
      }
-
-   ```
-
-
-   ```
-
-- **Learnings**: Enhanced understanding of asynchronous programming, improving my skills in designing robust, maintainable backend code.
+     ```
