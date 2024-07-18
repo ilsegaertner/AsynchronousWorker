@@ -136,34 +136,34 @@ Completing the backend task was a fun and rich experience, in which I strengthen
      ```
 3. **Additional functionality**
 
-   - **Task Priority:** Managed by including a `priority` parameter in the `push` method and sorting the queue:
+   - **Task Priority:** Add a task priority to allow certain tasks to be processed before others. Managed by including a `priority` parameter in the `push` method and sorting the queue:
 
-   - In `push(task, callback, priority = 1)`:
-     ```javascript
-     push(task, callback, priority = 1) {
-       this.taskQueue.push({ task, callback, priority });
-       this.taskQueue.sort((a, b) => b.priority - a.priority);
-       this.processTasks();
-     }
-     ```
-   - In `processTasks()`:
-     ```javascript
-     const { task, callback, priority } = this.taskQueue.shift();
-     ```
-     Sorting again after processing:
-     In `processTasks()`:
-     ```javascript
-     try {
-       this.runningTasks += 1;
-       await this.workerFn(task);
-       if (callback) callback(task);
-     } catch (error) {
-       console.error(error.message);
-     } finally {
-       this.runningTasks -= 1;
-       this.taskQueue.sort((a, b) => b.priority - a.priority);
-       this.processTasks();
-     }
-     ```
+- In `push(task, callback, priority = 1)`:
+  ```javascript
+  push(task, callback, priority = 1) {
+    this.taskQueue.push({ task, callback, priority });
+    this.taskQueue.sort((a, b) => b.priority - a.priority);
+    this.processTasks();
+  }
+  ```
+- In `processTasks()`:
+  ```javascript
+  const { task, callback, priority } = this.taskQueue.shift();
+  ```
+  Sorting again after processing:
+  In `processTasks()`:
+  ```javascript
+  try {
+    this.runningTasks += 1;
+    await this.workerFn(task);
+    if (callback) callback(task);
+  } catch (error) {
+    console.error(error.message);
+  } finally {
+    this.runningTasks -= 1;
+    this.taskQueue.sort((a, b) => b.priority - a.priority);
+    this.processTasks();
+  }
+  ```
 
 Completing this backend task was a valuable learning experience, enhancing my skills in handling asynchronous programming challenges.
