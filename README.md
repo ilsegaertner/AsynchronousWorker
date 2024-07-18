@@ -20,21 +20,37 @@ This small challenge involved the creation of an in-memory queue for managing as
 
 #### Understanding the Problem
 
-To understand the problem correctly, I investigated and researched on queue mechanisms to understand best practices for queues.
+**To understand the problem correctly, I investigated and researched on queue mechanisms to understand best practices for queues.**
 
 #### Gathering Requirements and Methods
 
-- Decision for creating the queue with a class due to flexibility.
-- Identified the need for a method to control the number of concurrent tasks (`limitConcurrentTasks`).
-- Defined `maxConcurrentTasks` as parameter for use in the `async main()` function (added `workerFunction` as a parameter later).
+- **Concurrency Control:**Identified the need for a method to control the number of concurrent tasks (`limitConcurrentTasks`).
+- **Parameter Defintion** Defined `maxConcurrentTasks` as parameter for use in the `async main()` function (The second paramter `workerFunction` was added later on).
 
 #### Decision Making and Implementation
 
-In the next step the methods were written from simple to more advanced
-
 - Established a `taskQueue` array to hold tasks and a `runningTasks` variable to track active tasks.
-- Implemented `limitConcurrentTasks` to check if the number of running tasks is within the limit:
-- Created `push()` to add tasks to the queue (`taskQueue`) and initiate task processing `processTasks()`:
+- **LimitConcurrentTasks():** Implemented `limitConcurrentTasks` to check if the number of running tasks is within the limit:
+
+  ```javascript
+  limitConcurrentTasks() {
+  return this.runningTasks < this.maxConcurrentTasks;
+  }
+  ```
+
+- **Push Method:** Created `push()` to add tasks to the queue (`taskQueue`) and initiate task processing `processTasks()`:
+
+  ```javascript
+  push(task) {
+  this.taskQueue.push(task);
+  this.processTasks();
+  }
+  ```
+
+- **Task Processing:** Developed `processTasks()`:
+
+  - Ensured the method runs only if the queue is not empty, not paused and the concurrency limit is not exceeded.
+  - Destructured the task from the queue, added it to `runningTasks`, executed the worker function, removed it from `runningTasks`, and processed the next task.
 
 - **Pause and Resume**: Implemented methods to control the queue's ability to start new tasks with `isPaused` flag:
 
@@ -49,16 +65,11 @@ In the next step the methods were written from simple to more advanced
   }
   ```
 
-- Developed `processTasks()`:
-
-  - Ensured the method runs only if the queue is not empty, not paused and the concurrency limit is not exceeded.
-  - Destructured the task from the queue, added it to `runningTasks`, executed the worker function, removed it from `runningTasks`, and processed the next task.
-
 - Created `waitForAll()` using a continuous `checkIfDone` promise to check if all tasks are completed:
 
-```javascript
-waitForAll() {
-  return new Promise((resolve) => {
+  ```javascript
+  waitForAll() {
+   return new Promise((resolve) => {
     const checkIfDone = () => {
       if (this.taskQueue.length === 0 && this.runningTasks === 0) {
         resolve();
@@ -67,9 +78,9 @@ waitForAll() {
       }
     };
     checkIfDone();
-  });
-}
-```
+   });
+  }
+  ```
 
 #### Final Steps
 
