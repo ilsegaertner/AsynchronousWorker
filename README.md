@@ -115,7 +115,7 @@ waitForAll() {
   main();
   ```
 
-### Reflections and Learnings
+## Reflections and Learnings
 
 Completing the backend task was a fun and rich experience, in which I strengthened my skills of how to think asynchronous problems in code.
 
