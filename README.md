@@ -116,15 +116,34 @@ waitForAll() {
 
 ### Reflections and Learnings
 
+Completing the backend task was a fun and rich experience, in which I strengthened my skills of how to think asynchronous problems in code.
+
 - **Additional Goals:**
 
-  1. Implementing the pause() and resume() methods was straightforward and achieved with setting a flag.
-  2. The optional callback was achieved through adding it to the push method: `push(task, callback) { this.taskQueue.push({ task, callback, priority });` and processTasks(): `const { task, callback } = this.taskQueue.shift();`
+1. Implementing the `pause()` and `resume()` methods was straightforward and achieved by setting a flag.
+2. The optional callback was handled by adding it to the `push` method and processing it in `processTasks()`:
+   - In `push(task, callback)`:
+     ```javascript
+     push(task, callback, priority = 1) {
+       this.taskQueue.push({ task, callback, priority });
+       this.processTasks();
+     }
+     ```
+   - In `processTasks()`:
+     ```javascript
+     const { task, callback, priority } = this.taskQueue.shift();
+     ```
+3. Additional functionality, such as adding task priority, was managed by including a `priority` parameter in the `push` method and destructuring it in `processTasks()`:
+   - In `push(task, callback, priority = 1)`:
+     ```javascript
+     push(task, callback, priority = 1) {
+       this.taskQueue.push({ task, callback, priority });
+       this.processTasks();
+     }
+     ```
+   - In `processTasks()`:
+     ```javascript
+     const { task, callback, priority } = this.taskQueue.shift();
+     ```
 
-- **Challenges**: Managing concurrency limits and implementing robust error handling.
-- **Improvements**: Refined task sorting for priority handling and adjusted error-handling strategies.
-- **Learnings**: Enhanced understanding of asynchronous programming and concurrency control, improved skills in designing robust, maintainable code.
-
-```
-
-```
+- **Learnings**: Enhanced understanding of asynchronous programming, improving my skills in designing robust, maintainable backend code.
