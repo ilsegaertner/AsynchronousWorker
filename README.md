@@ -119,12 +119,7 @@ waitForAll() {
 - **Additional Goals:**
 
   1. Implementing the pause() and resume() methods was straightforward and achieved with setting a flag.
-  2. The optional callback was achieved through adding it to the push method: `push(task, callback) { this.taskQueue.push({ task, callback, priority });`
-
-  and
-
-  processTasks():
-  `const { task, callback } = this.taskQueue.shift();`
+  2. The optional callback was achieved through adding it to the push method: `push(task, callback) { this.taskQueue.push({ task, callback, priority });` and processTasks(): `const { task, callback } = this.taskQueue.shift();`
 
 - **Challenges**: Managing concurrency limits and implementing robust error handling.
 - **Improvements**: Refined task sorting for priority handling and adjusted error-handling strategies.
