@@ -151,7 +151,7 @@ Completing the backend task was a fun and rich experience, in which I strengthen
      ```
      ...and sorting it again after the priority after calling the worker function:
      In `processTasks()`:
-     ´´´javascript
+     ```javascript
      try {
      this.runningTasks += 1;
      await this.workerFn(task);
