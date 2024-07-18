@@ -24,7 +24,7 @@ To understand the problem correctly, I investigated and researched on queue mech
 
 #### Gathering Requirements and Methods
 
-- **Concurrency Control:**Identified the need for a method to control the number of concurrent tasks (`limitConcurrentTasks`).
+- **Concurrency Control:** Identified the need for a method to control the number of concurrent tasks (`limitConcurrentTasks`).
 - **Parameter Defintion** Defined `maxConcurrentTasks` as parameter for use in the `async main()` function (The second paramter `workerFunction` was added later on).
 
 #### Decision Making and Implementation
