@@ -20,7 +20,7 @@ This small challenge involved the creation of an in-memory queue for managing as
 
 #### Understanding the Problem
 
-**To understand the problem correctly, I investigated and researched on queue mechanisms to understand best practices for queues.**
+To understand the problem correctly, I investigated and researched on queue mechanisms to understand best practices for queues.
 
 #### Gathering Requirements and Methods
 
